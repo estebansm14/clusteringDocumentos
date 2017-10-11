@@ -1,4 +1,4 @@
-
+import sys
 
 STOPWORDS = ['a','able','about','across','after','all','almost','also','am','among',
              'an','and','any','are','as','at','be','because','been','but','by','can',
@@ -12,3 +12,8 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
              'wants','was','we','were','what','when','where','which','while','who',
              'whom','why','will','with','would','yet','you','your']
 
+
+def leerArchivo():
+      fread = open(str(sys.argv[1]),'r')
+      print(fread.read())
+leerArchivo();
