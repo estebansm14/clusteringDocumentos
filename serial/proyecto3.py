@@ -19,9 +19,10 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
 # print i
 
 def leerArchivo():
-      for i in range(1,len(sys.argv)):
-        print(i)
-        fread = open(str(sys.argv[i]),'r')
-        txt = fread.read()
-        print txt.replace("\r\n", "").replace("\t"," ").split()
+      for filename in os.listdir(str(sys.argv[1])):
+          content = open(filename, "r")
+          txt = content.read()
+          print txt.replace("\r\n", "").replace("\t"," ").split()
 leerArchivo();
+
+
