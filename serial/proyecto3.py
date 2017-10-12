@@ -1,4 +1,4 @@
-import sys, os
+import string, os, sys
 
 STOPWORDS = ['a','able','about','across','after','all','almost','also','am','among',
              'an','and','any','are','as','at','be','because','been','but','by','can',
@@ -23,3 +23,11 @@ for i in os.listdir("/home/ana/clusteringDocumentos/serial"):
         files.append(open(i))
 print i
 
+<<<<<<< HEAD
+=======
+def leerArchivo():
+      fread = open(str(sys.argv[1]),'r')
+      txt = fread.read()
+      print txt.split()
+leerArchivo();
+>>>>>>> 4a2da79f794933d5261a8e353f3110c7cd0ef204
