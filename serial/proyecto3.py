@@ -12,22 +12,16 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
              'wants','was','we','were','what','when','where','which','while','who',
              'whom','why','will','with','would','yet','you','your']
 
-# def leerArchivo():
-#       f = open(str(sys.argv[1]),'r')
-#       print(f.read())
-#       f.close()
-# leerArchivo();
-files = []
-for i in os.listdir("/home/ana/clusteringDocumentos/serial"):
-    if i.endswith('.txt'):
-        files.append(open(i))
-print i
+# files = []
+# for i in os.listdir("/home/ana/clusteringDocumentos/serial"):
+#     if i.endswith('.txt'):
+#         files.append(open(i))
+# print i
 
-<<<<<<< HEAD
-=======
 def leerArchivo():
-      fread = open(str(sys.argv[1]),'r')
-      txt = fread.read()
-      print txt.split()
+      for i in range(1,len(sys.argv)):
+        print(i)
+        fread = open(str(sys.argv[i]),'r')
+        txt = fread.read()
+        print txt.replace("\r\n", "").replace("\t"," ").split()
 leerArchivo();
->>>>>>> 4a2da79f794933d5261a8e353f3110c7cd0ef204
