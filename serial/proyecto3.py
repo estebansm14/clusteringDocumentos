@@ -20,9 +20,13 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
 
 def leerArchivo():
       for filename in os.listdir(str(sys.argv[1])):
-          content = open(filename, "r")
-          txt = content.read()
-          print txt.replace("\r\n", "").replace("\t"," ").split()
-leerArchivo();
+          if str(sys.argv[1]+filename).endswith(".txt"):
+                #print (filename)
+                content = open(str(sys.argv[1]+filename), 'r')
+                txt = content.read()
+                print txt.replace("\r\n", "").replace("\t"," ").split()
+                #words = txt.replace("\r\n", "").replace("\t"," ").split()
+
+leerArchivo()
 
 
