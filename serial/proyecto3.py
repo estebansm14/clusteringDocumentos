@@ -31,14 +31,17 @@ def leerArchivo():
         for j in range(len(arr[i])):
           if arr[i][j] not in STOPWORDS:
             otroWords.append(arr[i][j])
-            '''if arr[i][j] not in mapa:
-              mapa = dict(arr[i][j],2)
-            else:
-              mapa = dict(arr[i][2],2)'''
+      for k in range(len(otroWords)):
+        for l in range(len(otroWords[k])):
+          if arr[k][l] not in mapa:
+            mapa = dict({arr[i][j]:1})
+          else:
+            valor = mapa.get(arr[i][j]) + 1
+            mapa.update({arr[i][j]: valor})
 
 
       #print otroWords
-      #print mapa 
+      print mapa 
 
 leerArchivo()
 
