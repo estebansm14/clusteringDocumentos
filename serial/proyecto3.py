@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import string, os, sys
 
 STOPWORDS = ['a','able','about','across','after','all','almost','also','am','among',
@@ -12,20 +13,20 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
              'wants','was','we','were','what','when','where','which','while','who',
              'whom','why','will','with','would','yet','you','your']
 
-# files = []
-# for i in os.listdir("/home/ana/clusteringDocumentos/serial"):
-#     if i.endswith('.txt'):
-#         files.append(open(i))
-# print i
-
 def leerArchivo():
+      words = ""
       for filename in os.listdir(str(sys.argv[1])):
           if str(sys.argv[1]+filename).endswith(".txt"):
-                #print (filename)
                 content = open(str(sys.argv[1]+filename), 'r')
-                txt = content.read()
-                print txt.replace("\r\n", "").replace("\t"," ").split()
-                #words = txt.replace("\r\n", "").replace("\t"," ").split()
+                txt = content.read().lower()
+                #print txt.replace("\r\n", "").replace("\t"," ").replace("-","").split()
+                words = txt.replace("\r\n", "").replace("\t"," ").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
+                #print words
+      for i in words:
+        for comparar in STOPWORDS:
+          if str(comparar) == str(i) :
+            words.remove(i)
+      print words
 
 leerArchivo()
 
