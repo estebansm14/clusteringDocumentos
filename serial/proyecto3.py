@@ -14,19 +14,31 @@ STOPWORDS = ['a','able','about','across','after','all','almost','also','am','amo
              'whom','why','will','with','would','yet','you','your']
 
 def leerArchivo():
-      words = ""
+      global words, otroWords, arr, mapa
+      words = []
+      otroWords = []
+      arr = []
+      mapa = dict()
       for filename in os.listdir(str(sys.argv[1])):
           if str(sys.argv[1]+filename).endswith(".txt"):
                 content = open(str(sys.argv[1]+filename), 'r')
                 txt = content.read().lower()
                 #print txt.replace("\r\n", "").replace("\t"," ").replace("-","").split()
                 words = txt.replace("\r\n", "").replace("\t"," ").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
-                #print words
-      for i in words:
-        for comparar in STOPWORDS:
-          if str(comparar) == str(i) :
-            words.remove(i)
-      print words
+
+                arr.append(words)   
+      for i in range(len(arr)):
+        for j in range(len(arr[i])):
+          if arr[i][j] not in STOPWORDS:
+            otroWords.append(arr[i][j])
+            '''if arr[i][j] not in mapa:
+              mapa = dict(arr[i][j],2)
+            else:
+              mapa = dict(arr[i][2],2)'''
+
+
+      #print otroWords
+      #print mapa 
 
 leerArchivo()
 
