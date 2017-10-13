@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import string, os, sys
+import string, os, sys, collections
 
 STOPWORDS = ['a','able','about','across','after','all','almost','also','am','among',
              'an','and','any','are','as','at','be','because','been','but','by','can',
@@ -25,23 +25,28 @@ def leerArchivo():
                 txt = content.read().lower()
                 #print txt.replace("\r\n", "").replace("\t"," ").replace("-","").split()
                 words = txt.replace("\r\n", "").replace("\t"," ").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
-
                 arr.append(words)   
       for i in range(len(arr)):
         for j in range(len(arr[i])):
           if arr[i][j] not in STOPWORDS:
             otroWords.append(arr[i][j])
-      for k in range(len(otroWords)):
-        for l in range(len(otroWords[k])):
-          if arr[k][l] not in mapa:
-            mapa = dict({arr[i][j]:1})
-          else:
-            valor = mapa.get(arr[i][j]) + 1
-            mapa.update({arr[i][j]: valor})
-
+            number = len(otroWords)
+            mapa = collections.Counter(otroWords)
+      #print otroWords
+      #print number
+      #print mapa.keys()
+      #print mapa.values()
+      print mapa
+      # for k in range(len(otroWords)):
+      #   for l in range(len(otroWords[k])):
+      #     if arr[k][l] not in mapa:
+      #       mapa = dict({arr[i][j]:1})
+      #     else:
+      #       valor = mapa.get(arr[i][j]) + 1
+      #       mapa.update({arr[i][j]: valor})
 
       #print otroWords
-      print mapa 
+      #print mapa 
 
 leerArchivo()
 
