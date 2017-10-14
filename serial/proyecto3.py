@@ -25,8 +25,9 @@ def leerArchivo():
         for j in range(len(arr[i])):
           if arr[i][j] not in STOPWORDS:
             otroWords.append(arr[i][j])
-            number = len(otroWords)
-            mapa = collections.Counter(otroWords)
+
+      
+      mapa = collections.Counter(otroWords)
       #print mapa
       tMayu = dict(mapa).keys()[0:15]
       #print tMayu
