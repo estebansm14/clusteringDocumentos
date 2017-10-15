@@ -3,6 +3,7 @@
 Integrantes del grupo:
 
 *Ana María Bedoya Hernández - abedoy19@eafit.edu.co
+
 *Esteban Salazar Montoya - esalaza7@eafit.edu.co
 
 ## 1. Descripción del proyecto:
