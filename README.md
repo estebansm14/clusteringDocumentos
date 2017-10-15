@@ -11,9 +11,11 @@ Este proyecto hace parte de la asignatura Tópicos Especiales en Telemática. Es
 Para ejecutar el programa se deben ejecutar los siguientes comandos en la terminal:
 
 Para el algoritmo serial:
+
 		$ python serial/proyecto3.py ../ruta en donde esté la carpeta con el dataset
 
 Para el algoritmo paralelo:
+
 		$ mpiexec -np 4 python paralelo/proyectoParalelo.py ../ruta en donde esté la carpeta con el dataset
 
 ## 3. Algoritmos utilizados:
