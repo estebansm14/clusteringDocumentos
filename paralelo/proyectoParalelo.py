@@ -39,17 +39,32 @@ def leerArchivo():
     tMayu = dict(mapa).keys()
     #print tMayu, rank
     fdt = []
-    for doc in arr:
+    if rank == 0:
+      for doc in arr:
         result = []
-        #comm.bcast(result,0)
-        for i in range(rank,len(tMayu),size):
+        comm.bcast(result,0)
+
+        for i in range(len(tMayu)):
             result.append(0)
         for word in doc:
             if word not in STOPWORDS:
                 if word in tMayu:
                     result[tMayu.index(word)] += 1
-        print(result)
-        print("-"*50)
+        #print(result), rank
+        #print("-"*50)
         fdt.append(result)
+    #print fdt
+    mat = np.empty((len(fdt),len(fdt)))
+    for i in range(len(fdt)):
+        for j in range(len(fdt)):
+            mat[i][j] = 1-jaccard_similarity(fdt[i],fdt[j])
+
+    #jaccard(result)
+    #print mat
+    cents, C = kMeans(mat, 2)
+    print C
+    print "-"*50
+    print cents
+    print(time.time() - timeIni)
 
 leerArchivo()
