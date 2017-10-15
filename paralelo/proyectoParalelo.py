@@ -21,13 +21,18 @@ def leerArchivo():
     size = comm.size
     name = MPI.Get_processor_name()
 
-    comm.Bcast(words, root=0)
+    comm.bcast(words, 0)
     for filename in os.listdir(str(sys.argv[1])):
         if str(sys.argv[1]+filename).endswith(".txt"):
             content = open(str(sys.argv[1]+filename), 'r')
             txt = content.read().lower()
-            words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
+            words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("{","").replace("}","").replace("=","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
             arr.append(words)
-
+    arreglo = comm.bcast(arr)
+    for i in range(rank,len(arr),size):
+        for j in range(rank,len(arr[i]),size):
+          if arreglo[i][j] not in STOPWORDS:
+            otroWords.append(arreglo[i][j])
+    print otroWords
 
 leerArchivo()

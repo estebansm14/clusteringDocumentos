@@ -17,7 +17,7 @@ def leerArchivo():
           if str(sys.argv[1]+filename).endswith(".txt"):
                 content = open(str(sys.argv[1]+filename), 'r')
                 txt = content.read().lower()
-                words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
+                words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("{","").replace("}","").replace("=","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
                 arr.append(words)  
 
       #i para los documentos, j para las palabras.           
