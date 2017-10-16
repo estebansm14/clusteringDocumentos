@@ -13,8 +13,10 @@ def leerArchivo():
       otroWords = []
       arr = []
       mapa = dict()
+      #nombreDoc = dict()
       for filename in os.listdir(str(sys.argv[1])):
           if str(sys.argv[1]+filename).endswith(".txt"):
+                #nombreDoc = dict(filename)
                 content = open(str(sys.argv[1]+filename), 'r')
                 txt = content.read().lower()
                 words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("{","").replace("}","").replace("=","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
@@ -50,15 +52,31 @@ def leerArchivo():
       for i in range(len(fdt)):
             for j in range(len(fdt)):
                   mat[i][j] = 1-jaccard_similarity(fdt[i],fdt[j])
-                  
+
       #jaccard(result)
       #print mat
       cents, C = kMeans(mat, 2)
-      print C
-      print "-"*50
-      print cents
+      #print C
+      #print "-"*50
+      #print cents
       print(time.time() - timeIni)
+
+      #print nombreArchivos
+      #print nombreDoc
+      textos = os.listdir(str(sys.argv[1]))
+      categoria1 = []
+      categoria2 = []
+      #print len(textos)-1
+      for i in range(len(textos)):
+            if C[i] == 0:
+                  categoria1.append(textos[i])
+            else:
+                  categoria2.append(textos[i])
+      print "Cluster 1 : ", categoria1
+      print "Cluster 2 : ", categoria2
 leerArchivo()
+
+
 
 
 

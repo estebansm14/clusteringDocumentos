@@ -65,9 +65,20 @@ def leerArchivo():
     #jaccard(result)
     #print mat
     cents, C = kMeans(mat, 2)
-    print C
-    print "-"*50
-    print cents
+    #print C
+    #print "-"*50
+    #print cents
     print(time.time() - timeIni)
-
+    textos = os.listdir(str(sys.argv[1]))
+    categoria1 = []
+    categoria2 = []
+    #print len(textos)-1
+    comm.bcast(textos, 0)
+    for i in range(len(textos)):
+        if C[i] == 0:
+                categoria1.append(textos[i])
+        else:
+                categoria2.append(textos[i])
+    print "Cluster 1 : ", categoria1
+    print "Cluster 2 : ", categoria2
 leerArchivo()
