@@ -27,18 +27,20 @@ def leerArchivo():
             content = open(str(sys.argv[1]+filename), 'r')
             txt = content.read().lower()
             words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("{","").replace("}","").replace("=","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
-            arr.append(words)
+            wordsUnir = comm.gather(words, 0)
+            arr.append(wordsUnir)
 
     arreglo = comm.bcast(arr)
     for i in range(rank,len(arr),size):
         for j in range(rank,len(arr[i]),size):
           if arreglo[i][j] not in STOPWORDS:
+            #gather = comm.gather(arreglo[i][j], 0)
             otroWords.append(arreglo[i][j])
-
+    #print otroWords, rank
     mapa = collections.Counter(otroWords).most_common(15)
     tMayu = dict(mapa).keys()
     #print tMayu, rank
-    fdt = []
+    '''fdt = []
     if rank == 0:
       for doc in arr:
         result = []
@@ -64,7 +66,7 @@ def leerArchivo():
     cents, C = kMeans(mat, 2)
     print C
     print "-"*50
-    print cents
+    print cents'''
     print(time.time() - timeIni)
 
 leerArchivo()
