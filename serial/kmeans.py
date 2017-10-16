@@ -1,5 +1,3 @@
-'''Implementation and of K Means Clustering
-Requires : python 2.7.x, Numpy 1.7.1+'''
 import numpy as np
 
 def kMeans(X, K, maxIters = 10, plot_progress = None):

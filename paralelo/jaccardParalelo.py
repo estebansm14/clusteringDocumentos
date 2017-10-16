@@ -1,15 +1,16 @@
 from math import*
 import numpy as np
+from mpi4py import MPI
 
 def jaccard_similarity(x,y):
-    intersection_cardinality = len(set.intersection(*[set(x), set(y)]))
-    #print(intersection_cardinality)
-    union_cardinality = len(set.union(*[set(x), set(y)]))
-    #print(list(set.union(*[set(x), set(y)])))
-    return intersection_cardinality/float(union_cardinality)
+    comm = MPI.COMM_WORLD
+    rank = comm.rank
+    size = comm.size
 
-#print jaccard_similarity([0,1,2],[0,2,3])
+    if rank == 0:
+        intersection_cardinality = len(set.intersection(*[set(x), set(y)]))
+        #print(intersection_cardinality)
+        union_cardinality = len(set.union(*[set(x), set(y)]))
+        #print(list(set.union(*[set(x), set(y)])))
+        return intersection_cardinality/float(union_cardinality)
 
-# crear la matriz
-
-#X = np.vstack((data1,np.vstack((data2,data3))))

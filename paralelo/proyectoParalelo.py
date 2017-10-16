@@ -27,8 +27,8 @@ def leerArchivo():
             content = open(str(sys.argv[1]+filename), 'r')
             txt = content.read().lower()
             words = txt.replace("\r\n", " ").replace("\t"," ").replace("\n"," ").replace("\r","").replace("{","").replace("}","").replace("=","").replace("$","").replace("!","").replace("-","").replace("[","").replace("]","").replace(".","").replace(",","").replace(":","").replace(";","").replace("_","").replace("*","").replace("+","").replace("'","").replace("?","").replace("¿","").split()
-            wordsUnir = comm.gather(words, 0)
-            arr.append(wordsUnir)
+            #wordsUnir = comm.gather(words, 0)
+            arr.append(words)
 
     arreglo = comm.bcast(arr)
     for i in range(rank,len(arr),size):
@@ -40,33 +40,34 @@ def leerArchivo():
     mapa = collections.Counter(otroWords).most_common(15)
     tMayu = dict(mapa).keys()
     #print tMayu, rank
-    '''fdt = []
+    fdt = []
     if rank == 0:
-      for doc in arr:
-        result = []
-        comm.bcast(result,0)
+        for doc in arr:
+            result = []
+            comm.bcast(result,0)
 
-        for i in range(len(tMayu)):
-            result.append(0)
-        for word in doc:
-            if word not in STOPWORDS:
-                if word in tMayu:
-                    result[tMayu.index(word)] += 1
-        #print(result), rank
-        #print("-"*50)
-        fdt.append(result)
+            for i in range(len(tMayu)):
+                result.append(0)
+            for word in doc:
+                if word not in STOPWORDS:
+                    if word in tMayu:
+                        result[tMayu.index(word)] += 1
+            #print(result), rank
+            #print("-"*50)
+            #gather = comm.gather(result, 0)
+            fdt.append(result)
     #print fdt
     mat = np.empty((len(fdt),len(fdt)))
-    for i in range(len(fdt)):
-        for j in range(len(fdt)):
+    for i in range(rank,len(fdt),size):
+        for j in range(rank,len(fdt),size):
             mat[i][j] = 1-jaccard_similarity(fdt[i],fdt[j])
-
+    comm.bcast(mat, 0)
     #jaccard(result)
     #print mat
     cents, C = kMeans(mat, 2)
     print C
     print "-"*50
-    print cents'''
+    print cents
     print(time.time() - timeIni)
 
 leerArchivo()
