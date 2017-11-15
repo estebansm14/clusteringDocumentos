@@ -11,6 +11,7 @@ def clean(doc):
 datasets = sc.wholeTextFiles("hdfs:///datasets/gutenberg-txt-es/*.txt")    \
            .mapValues(clean)                                            \
            .cache()
-essayNames = datasets.map(lambda (filename, contents): filename).collect()
-docs = datasets.map(lambda (filename, contents): contents)
+var = (filename, contents)
+essayNames = datasets.map(lambda var: filename).collect()
+docs = datasets.map(lambda var: contents)
 print docs 
