@@ -1,11 +1,11 @@
-from _future_ import print_function
+from __future__ import print_function
 
 from pyspark import SparkContext
 # $example on$                                                                                                                                                                    
 from pyspark.mllib.feature import HashingTF, IDF
 # $example off$                                                                                                                                                                   
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     sc = SparkContext(appName="TFIDFExample")  # SparkContext                                                                                                                     
 
     # $example on$                                                                                                                                                                
