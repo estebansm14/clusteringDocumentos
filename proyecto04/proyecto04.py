@@ -32,5 +32,10 @@ if __name__ == "__main__":
         return sqrt(sum([x**2 for x in (point -center)]))
 
     WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+    archivoSalida = open("clusters.txt","w") # Crear archivo de salida
+    archivoSalida.write("Clusters: \n") 
+    archivoSalida.write(str(diccionario))
+    archivoSalida.write('\n' + str(clusters.computeCost(tfidf)) +'\n')
+    archivoSalida.write('\n' + str(WSSSE)+'\n')
 
     sc.stop() #SparkContext detenido
