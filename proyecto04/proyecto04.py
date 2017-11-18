@@ -1,42 +1,36 @@
-from __future__ import print_function
-
-from pyspark import SparkContext
-# $example on$                                                                                                                                                                    
+import sys
+from math import sqrt
+from pyspark import SparkContext                                                                                                                                                                  
 from pyspark.mllib.feature import HashingTF, IDF
-# $example off$                                                                                                                                                                   
+from pyspark.mllib.clustering import KMeans                                                                                                                                                                   
 
 if __name__ == "__main__":
-    sc = SparkContext(appName="TFIDFExample")  # SparkContext                                                                                                                     
+    if len(sys.argv) <4: #Identificacion de ruta, k y maximo de iteraciones ingresados como parametro
+        print("Ejecutar = spark-submit proyecto04.py <rutaDataset> <k> <maximoIteraciones>") #Imprimir si hay un fallo y se pasan parametros que no corresponden
+        sys.exit(1) #El programa para
+    ruta = sys.argv[1] #El primer parametro ingresado por consola corresponde a la ruta 
+    k = int(sys.argv[2]) #El segundo parametro es el k
+    maximoIter = int(sys.argv[3]) #El tercer parametro corresponde al maximo de iteraciones     
 
-    # $example on$                                                                                                                                                                
-    # Load documents (one per line).                                                                                                                                              
-    documents = sc.textFile("hdfs:///datasets/gutenberg-txt-es/12368.txt").map(lambda line: line.split(" "))
+    sc = SparkContext(appName="Proyecto04")  # SparkContext                                                                                                                                                                                                                
+    documentos = sc.wholeTextFiles(ruta) # Leer todos los archivos de la carpeta ingresada como parametro
+    nombreDocumentos = documentos.keys().collect() # Nombre de los documentos
+    docs = documentos.values().map(lambda doc: doc.split(" ")) # Se separan por palabras los documentos
+    hashingTF = HashingTF() # Objeto tipo HashingTF
+    tf = hashingTF.transform(docs) # Frecuencia de los terminos en los documentos
+    idf = IDF().fit(tf) #Mide que tan relevante son los terminos en el cluster   
+    tfidf = idf.transform(tf) #Resultado de la multiplicacion tfidf
 
-    hashingTF = HashingTF()
-    tf = hashingTF.transform(documents)
+    # Construye el modelo y agrupa los datos con k-means
+    clusters = KMeans.train(tfidf,k,maxIterations=maximoIter) #Se obtiene el modelo k-means
+    clustersid = clusters.predict(tfidf).collect() #Lista de las agrupaciones resultantes 
+    diccionario = dict(zip(nombreDocumentos, clustersid)) 
 
-    # While applying HashingTF only needs a single pass to the data, applying IDF needs two passes:                                                                               
-    # First to compute the IDF vector and second to scale the term frequencies by IDF.                                                                                            
-    tf.cache()
-    idf = IDF().fit(tf)
-    tfidf = idf.transform(tf)
+    # Evaluar clustering usando algoritmo Within Set Sum of Squared Errors
+    def error(point):
+        center = clusters.centers[clusters.predict(point)]
+        return sqrt(sum([x**2 for x in (point -center)]))
 
-    # spark.mllib's IDF implementation provides an option for ignoring terms                                                                                                      
-    # which occur in less than a minimum number of documents.                                                                                                                     
-    # In such cases, the IDF for these terms is set to 0.                                                                                                                         
-    # This feature can be used by passing the minDocFreq value to the IDF constructor.                                                                                            
-    idfIgnore = IDF(minDocFreq=2).fit(tf)
-    tfidfIgnore = idfIgnore.transform(tf)
-    # $example off$                                                                                                                                                               
+    WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
 
-    print("tfidf:")
-    carpeta = open("tfidf.txt","w")
-    for each in tfidf.collect():
-        print(each)
-        carpeta.write(str(each))
-
-    print("tfidfIgnore:")
-    for each in tfidfIgnore.collect():
-        print(each)
-
-    sc.stop()
+    sc.stop() #SparkContext detenido
