@@ -27,14 +27,14 @@ if __name__ == "__main__":
     diccionario = dict(zip(nombreDocumentos, clustersid)) 
 
     # Evaluar clustering usando algoritmo Within Set Sum of Squared Errors
-    def error(point):
-        center = clusters.centers[clusters.predict(point)]
-        return sqrt(sum([x**2 for x in (point -center)]))
+    #def error(point):
+      #  center = clusters.centers[clusters.predict(point)]
+     #   return sqrt(sum([x**2 for x in (point -center)]))
 
-    WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
-    print ("Within Set Sum of Squared Error = " + str(WSSSE))
+    #WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+    #print ("Within Set Sum of Squared Error = " + str(WSSSE))
 
     d = sc.parallelize(diccionario.items())
-    d.coalesce(1).saveAsTextFile(rutaOut)
+    d.coalesce(1).saveAsTextFile("hdfs:///user/abedoy19/salida/salida")
 
     sc.stop() #SparkContext detenido
