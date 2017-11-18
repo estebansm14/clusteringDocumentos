@@ -13,7 +13,7 @@ if __name__ == "__main__":
     maximoIter = int(sys.argv[3]) #El tercer parametro corresponde al maximo de iteraciones     
 
     sc = SparkContext(appName="Proyecto04")  # SparkContext                                                                                                                                                                                                                
-    documentos = sc.wholeTextFiles(ruta) # Leer todos los archivos de la carpeta ingresada como parametro
+    documentos = sc.wholeTextFiles("hdfs:///"+ruta) # Leer todos los archivos de la carpeta ingresada como parametro
     nombreDocumentos = documentos.keys().collect() # Nombre de los documentos
     docs = documentos.values().map(lambda doc: doc.split(" ")) # Se separan por palabras los documentos
     hashingTF = HashingTF() # Objeto tipo HashingTF
@@ -32,5 +32,12 @@ if __name__ == "__main__":
         return sqrt(sum([x**2 for x in (point -center)]))
 
     WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+    print ("Within Set Sum of Squared Error = " + str(WSSSE))
+
+    archivoSalida = open("clusters.txt","w") # Crear archivo de salida
+    archivoSalida.write("Clusters: \n") 
+    archivoSalida.write(str(diccionario))
+    archivoSalida.write('\n' + str(clusters.computeCost(tfidf)) +'\n')
+    archivoSalida.write('\n' + str(WSSSE)+'\n')
 
     sc.stop() #SparkContext detenido
