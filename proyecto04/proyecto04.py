@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # Construye el modelo y agrupa los datos con k-means
     clusters = KMeans.train(tfidf,k,maxIterations=maximoIter) #Se obtiene el modelo k-means
     clustersid = clusters.predict(tfidf).collect() #Lista de las agrupaciones resultantes 
-    diccionario = dict(zip(nombreDocumentos, clustersid)) 
+    diccionario = dict(zip(nombreDocumentos, clustersid)) #crear un diccionario con dos listas
 
     # Evaluar clustering usando algoritmo Within Set Sum of Squared Errors
     #def error(point):
@@ -34,7 +34,8 @@ if __name__ == "__main__":
     #WSSSE = tfidf.map(lambda point: error(point)).reduce(lambda x, y: x + y)
     #print ("Within Set Sum of Squared Error = " + str(WSSSE))
 
-    d = sc.parallelize(diccionario.items())
-    d.coalesce(1).saveAsTextFile("hdfs:///user/abedoy19/salida/salida")
-
+    #se llama el metodo de paralizacion de SparkContext, y se pasa el conjunto de datos distribuidos (diccionario)
+    d = sc.parallelize(diccionario.items()) 
+    d.coalesce(1).saveAsTextFile("hdfs:///user/abedoy19/salida/salida") #Crea un solo archivo de salida
+    #d.coalesce(1).saveAsTextFile("hdfs:///user/esalaza7/salida")
     sc.stop() #SparkContext detenido
