@@ -26,7 +26,7 @@ De manera local:
 
 Ejecutar en el cluster:
 
-    $ spark-submit --master yarn --deploy-mode cluster --executor-memory 2G --num-executors proyecto04.py <rutaDataset> <k> <maximoIteraciones>
+    $ spark-submit --master yarn --deploy-mode cluster --executor-memory 2G --num-executors 4 proyecto04.py <rutaDataset> <k> <maximoIteraciones>
 
 ## 4. Algoritmos utilizados:
 * TF-IDF (Term frequency-inverse document frequency): Es un método de vectorización de características muy utilizado en minería de texto para reflejar la importancia de un término para un documento. 
