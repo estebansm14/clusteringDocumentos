@@ -22,11 +22,11 @@ Para ejecutar el programa se deben ejecutar los siguientes comandos en la termin
 
 De manera local:
 
-    $ spark-submit proyecto04.py <rutaDataset> <k> <maximoIteraciones>
+    $ spark-submit proyecto04.py <hdfs:///"rutaDataset"> <k> <maximoIteraciones>
 
 Ejecutar en el cluster:
 
-    $ spark-submit --master yarn --deploy-mode cluster --executor-memory 2G --num-executors 4 proyecto04.py <rutaDataset> <k> <maximoIteraciones>
+    $ spark-submit --master yarn --deploy-mode cluster --executor-memory 2G --num-executors 4 proyecto04.py <hdfs:///rutaDataset> <k> <maximoIteraciones>
 
 ## 4. Algoritmos utilizados:
 * TF-IDF (Term frequency-inverse document frequency): Es un método de vectorización de características muy utilizado en minería de texto para reflejar la importancia de un término para un documento. 
